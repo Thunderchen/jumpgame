@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JumpingGame", "JumpingGame\JumpingGame.csproj", "{7DD9BAF8-74CE-4DFC-9431-59F7DD1F39C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameFramework_WP8", "..\..\..\..\Desktop\9781430258360\Chapter4\GameFramework\GameFramework_WP8.csproj", "{8B369F84-3693-4BE0-81F1-37AE81DB89DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameFramework_WP8", "GameFramework\GameFramework_WP8.csproj", "{8B369F84-3693-4BE0-81F1-37AE81DB89DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
