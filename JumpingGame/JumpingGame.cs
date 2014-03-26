@@ -43,6 +43,8 @@ namespace JumpingGame
 
             Textures.Add("Ball", this.Content.Load<Texture2D>("Ball"));
             Textures.Add("Rock", this.Content.Load<Texture2D>("Rock"));
+            Textures.Add("Ocean", this.Content.Load<Texture2D>("Ocean"));
+            Textures.Add("Cloud", this.Content.Load<Texture2D>("Cloud"));
             ResetGame();
         }
 
@@ -73,15 +75,31 @@ namespace JumpingGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.LightBlue);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            DrawSprites(gameTime, spriteBatch);
+            DrawSprites(gameTime, spriteBatch, Textures["Cloud"]);
+            DrawSprites(gameTime, spriteBatch, Textures["Ball"]);
+            DrawSprites(gameTime, spriteBatch, Textures["Rock"]);
+            DrawSprites(gameTime, spriteBatch, Textures["Ocean"]);
             spriteBatch.End();
             base.Draw(gameTime);
         }
 
+        private RockObject[] RockObjects;
+        private RockObject[] GetRockObjects()
+        {
+            if (RockObjects == null)
+            {
+                for (int i = 0; i < 3; ++i)
+                {
+                    RockObjects = new RockObject[3];
+                    RockObjects[i] = new RockObject(this, Textures["Rock"], 3.0f, LastRockX);
+                }
+            }
+            return RockObjects;
+        }
         private void ResetGame()
         {
             GameObjects.Add(new BallObject(this, Textures["Ball"]));
@@ -89,7 +107,10 @@ namespace JumpingGame
             GameObjects.Add(new RockObject(this, Textures["Rock"], 3.0f, LastRockX));
             GameObjects.Add(new RockObject(this, Textures["Rock"], 3.0f, LastRockX));
             GameObjects.Add(new RockObject(this, Textures["Rock"], 3.0f, LastRockX));
+            GameObjects.Add(new OceanObject(this, Textures["Ocean"]));
+            GameObjects.Add(new CloudObject(this, Textures["Cloud"]));
         }
+
 
         private float _lastRockX;
 
