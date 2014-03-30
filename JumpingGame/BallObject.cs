@@ -17,13 +17,58 @@ namespace JumpingGame
         {
             _game = game;
             Position = new Vector2(_game.GraphicsDevice.Viewport.Bounds.Width, _game.GraphicsDevice.Viewport.Bounds.Height) / 2;
-            Origin = new Vector2(texture.Bounds.Width, texture.Bounds.Height) / 2; 
+            Origin = new Vector2(0, texture.Bounds.Height); 
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            
+            if (_isFalling)
+            {
+                PositionY += 5;
+                RockObject rockObj = HasLanded();
+                if (rockObj != null)
+                {
+                    _isFalling = false;
+                }
+            }
+            else
+            {
+                PositionY -= 5;
+                if (PositionY < _game.GraphicsDevice.Viewport.Bounds.Height * 0.3f)
+                {
+                    _isFalling = true;
+                }
+            }
+            if(this.PositionY > _game.GraphicsDevice.Viewport.Bounds.Height){
+                PositionY = _game.GraphicsDevice.Viewport.Bounds.Height * 0.2f;
+            }    
             base.Update(gameTime);
+        }
+
+        private bool _isFalling = true;
+
+        //TODO: switch isFaling
+        public RockObject HasLanded()
+        {
+            RockObject[] rockObjects;
+            RockObject rockObj;
+
+            rockObjects = ((JumpingGame)_game).RockObjects;
+            for (int i = 0; i < rockObjects.Length; ++i)
+            {
+                rockObj = rockObjects[i];
+                if (rockObj != null && rockObj.IsDisplayed)
+                {
+                    //TODO: if landed?
+                    if(this.PositionX + this.BoundingBox.Width >= rockObj.PositionX - rockObj.BoundingBox.Width/2 && this.PositionX <= rockObj.PositionX + rockObj.BoundingBox.Width/2 &&
+                        this.PositionY >= rockObj.PositionY - 5.0f && this.PositionY <= rockObj.PositionY + 5.0f)
+                    {
+                        return rockObj;
+                    }
+                    
+                }
+            }
+            return null;
         }
     }
 }

@@ -87,26 +87,36 @@ namespace JumpingGame
             base.Draw(gameTime);
         }
 
-        private RockObject[] RockObjects;
-        private RockObject[] GetRockObjects()
+        private RockObject[] _rockObjects;
+        public RockObject[] RockObjects
         {
-            if (RockObjects == null)
+            get
             {
+                return this._rockObjects;
+            }
+        }
+        public RockObject[] InitiateRockObjects()
+        {
+            if (_rockObjects == null || _rockObjects.Length < 3)
+            {
+                _rockObjects = new RockObject[3];
                 for (int i = 0; i < 3; ++i)
                 {
-                    RockObjects = new RockObject[3];
-                    RockObjects[i] = new RockObject(this, Textures["Rock"], 3.0f, LastRockX);
+                    _rockObjects[i] = new RockObject(this, Textures["Rock"], 5.0f, LastRockX);
                 }
             }
-            return RockObjects;
+            return _rockObjects;
         }
         private void ResetGame()
         {
-            GameObjects.Add(new BallObject(this, Textures["Ball"]));
             LastRockX = 0;
-            GameObjects.Add(new RockObject(this, Textures["Rock"], 3.0f, LastRockX));
-            GameObjects.Add(new RockObject(this, Textures["Rock"], 3.0f, LastRockX));
-            GameObjects.Add(new RockObject(this, Textures["Rock"], 3.0f, LastRockX));
+            InitiateRockObjects();
+
+            GameObjects.Add(new BallObject(this, Textures["Ball"]));
+            for (int i = 0; i < RockObjects.Length; ++i)
+            {
+                GameObjects.Add(RockObjects[i]);
+            }
             GameObjects.Add(new OceanObject(this, Textures["Ocean"]));
             GameObjects.Add(new CloudObject(this, Textures["Cloud"]));
         }
