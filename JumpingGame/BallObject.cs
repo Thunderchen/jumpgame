@@ -21,6 +21,9 @@ namespace JumpingGame
             Reset();
         }
 
+        private int _jumpCount;
+        private const int JUMPCOUNTMAX = 3;
+
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
 
@@ -28,10 +31,11 @@ namespace JumpingGame
             TouchCollection tc = TouchPanel.GetState();
             if (tc.Count == 1)
             {
-                if (tc[0].State == TouchLocationState.Pressed)
+                if (tc[0].State == TouchLocationState.Pressed && _jumpCount < JUMPCOUNTMAX)
                 {
                     _isJumping = true;
                     _isFalling = false;
+                    _jumpCount++;
                 }
             }
 
@@ -43,6 +47,7 @@ namespace JumpingGame
                 {
                     _isFalling = false;
                     _isJumping = false;
+                    _jumpCount = 0;
                 }
                 else
                 {
@@ -56,6 +61,7 @@ namespace JumpingGame
                     _isFalling = true;
                     _isJumping = false;
                 }
+        
             }
             else if (!_isJumping && !_isFalling)
             {
@@ -64,6 +70,7 @@ namespace JumpingGame
                 {
                     _isFalling = false;
                     _isJumping = false;
+                    _jumpCount = 0;
                 }
                 else
                 {
@@ -119,6 +126,7 @@ namespace JumpingGame
             Position = new Vector2(_game.GraphicsDevice.Viewport.Bounds.Width, _game.GraphicsDevice.Viewport.Bounds.Height) / 2;
             Origin = new Vector2(0, this.BoundingBox.Width);
             _isFalling = true;
+            _jumpCount = 0;
         }
     }
 }
