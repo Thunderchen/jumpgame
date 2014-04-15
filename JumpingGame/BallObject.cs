@@ -38,6 +38,12 @@ namespace JumpingGame
                     _jumpCount++;
                 }
             }
+            if (HasCrashed() != null)
+            {
+                _isFalling = true;
+                _isJumping = false;
+                _jumpCount = 3;
+            }
 
             if (_isFalling && !_isJumping)
             {
@@ -121,10 +127,33 @@ namespace JumpingGame
             return null;
         }
 
+        public RockObject HasCrashed()
+        {
+            RockObject[] rockObjects;
+            RockObject rockObj;
+
+            rockObjects = ((JumpingGame)_game).RockObjects;
+            for (int i = 0; i < rockObjects.Length; ++i)
+            {
+                rockObj = rockObjects[i];
+                if (rockObj != null && rockObj.IsDisplayed)
+                {
+                    //TODO: if landed?
+                    if (this.PositionX + this.BoundingBox.Width >= rockObj.PositionX - rockObj.BoundingBox.Width / 2 && 
+                        this.PositionY >= rockObj.PositionY && this.PositionY >= 0)
+                    {
+                        return rockObj;
+                    }
+
+                }
+            }
+            return null;
+        }
+
         public void Reset()
         {
             Position = new Vector2(_game.GraphicsDevice.Viewport.Bounds.Width, _game.GraphicsDevice.Viewport.Bounds.Height) / 2;
-            Origin = new Vector2(0, this.BoundingBox.Width);
+            Origin = new Vector2(0, this.BoundingBox.Height);
             _isFalling = true;
             _jumpCount = 0;
         }
