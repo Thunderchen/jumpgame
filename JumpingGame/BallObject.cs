@@ -43,6 +43,7 @@ namespace JumpingGame
                 _isFalling = true;
                 _isJumping = false;
                 _jumpCount = 3;
+                ((JumpingGame)_game).RockMove = false;
             }
 
             if (_isFalling && !_isJumping)
@@ -139,7 +140,7 @@ namespace JumpingGame
                 if (rockObj != null && rockObj.IsDisplayed)
                 {
                     //TODO: if landed?
-                    if (this.PositionX + this.BoundingBox.Width >= rockObj.PositionX - rockObj.BoundingBox.Width / 2 && 
+                    if (this.PositionX + this.BoundingBox.Width >= rockObj.PositionX - rockObj.BoundingBox.Width / 2 - 5.0f && this.PositionX + this.BoundingBox.Width <= rockObj.PositionX - rockObj.BoundingBox.Width / 2 + 5.0f && 
                         this.PositionY >= rockObj.PositionY && this.PositionY >= 0)
                     {
                         return rockObj;
@@ -156,6 +157,7 @@ namespace JumpingGame
             Origin = new Vector2(0, this.BoundingBox.Height);
             _isFalling = true;
             _jumpCount = 0;
+            ((JumpingGame)_game).RockMove = true;
         }
     }
 }

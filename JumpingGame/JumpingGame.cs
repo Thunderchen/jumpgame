@@ -142,5 +142,18 @@ namespace JumpingGame
                 _lastRockX = value;
             }
         }
+
+        private bool _rockMove = true;
+        internal bool RockMove
+        {
+            get
+            {
+                return _rockMove;
+            }
+            set
+            {
+                _rockMove = value;
+            }
+        }
     }
 }
