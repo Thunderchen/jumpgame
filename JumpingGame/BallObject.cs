@@ -16,8 +16,7 @@ namespace JumpingGame
             : base(game, Vector2.Zero, texture)
         {
             _game = game;
-            Position = new Vector2(_game.GraphicsDevice.Viewport.Bounds.Width, _game.GraphicsDevice.Viewport.Bounds.Height) / 2;
-            Origin = new Vector2(0, texture.Bounds.Height); 
+            Reset();
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
@@ -40,7 +39,7 @@ namespace JumpingGame
                 }
             }
             if(this.PositionY > _game.GraphicsDevice.Viewport.Bounds.Height){
-                PositionY = _game.GraphicsDevice.Viewport.Bounds.Height * 0.2f;
+                Reset();
             }    
             base.Update(gameTime);
         }
@@ -69,6 +68,12 @@ namespace JumpingGame
                 }
             }
             return null;
+        }
+
+        public void Reset()
+        {
+            Position = new Vector2(_game.GraphicsDevice.Viewport.Bounds.Width, _game.GraphicsDevice.Viewport.Bounds.Height) / 2;
+            Origin = new Vector2(0, this.BoundingBox.Width);
         }
     }
 }

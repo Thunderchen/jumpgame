@@ -1,6 +1,7 @@
 ﻿using GameFramework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 
 namespace JumpingGame
@@ -64,8 +65,11 @@ namespace JumpingGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // TODO: Add your update logic here
-
+            // back button pressed
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            {
+                this.Exit();
+            }
             base.UpdateAll(gameTime);
         }
 
