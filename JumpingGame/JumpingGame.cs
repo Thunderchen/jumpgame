@@ -70,6 +70,7 @@ namespace JumpingGame
             {
                 this.Exit();
             }
+            // TODO: add logic to save the state before game exit
             base.UpdateAll(gameTime);
         }
 

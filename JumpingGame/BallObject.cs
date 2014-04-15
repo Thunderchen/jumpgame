@@ -1,6 +1,8 @@
 ﻿using GameFramework;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,15 +23,55 @@ namespace JumpingGame
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            if (_isFalling)
+
+
+            TouchCollection tc = TouchPanel.GetState();
+            if (tc.Count == 1)
+            {
+                if (tc[0].State == TouchLocationState.Pressed)
+                {
+                    _isJumping = true;
+                    _isFalling = false;
+                }
+            }
+
+            if (_isFalling && !_isJumping)
             {
                 PositionY += 5;
                 RockObject rockObj = HasLanded();
                 if (rockObj != null)
                 {
                     _isFalling = false;
+                    _isJumping = false;
+                }
+                else
+                {
+                    _isFalling = true;
+                    _isJumping = false;
+                }
+            }else if(_isJumping && !_isFalling){
+                PositionY -= 5;
+                if (PositionY < _game.GraphicsDevice.Viewport.Bounds.Height * 0.3f)
+                {
+                    _isFalling = true;
+                    _isJumping = false;
                 }
             }
+            else if (!_isJumping && !_isFalling)
+            {
+                RockObject rockObj = HasLanded();
+                if (rockObj != null)
+                {
+                    _isFalling = false;
+                    _isJumping = false;
+                }
+                else
+                {
+                    _isFalling = true;
+                    _isJumping = false;
+                }
+            }
+            /**
             else
             {
                 PositionY -= 5;
@@ -37,15 +79,17 @@ namespace JumpingGame
                 {
                     _isFalling = true;
                 }
-            }
+            }*/
+
+
             if(this.PositionY > _game.GraphicsDevice.Viewport.Bounds.Height){
                 Reset();
             }    
             base.Update(gameTime);
         }
 
-        private bool _isFalling = true;
-
+        private bool _isFalling;
+        private bool _isJumping;
         //TODO: switch isFaling
         public RockObject HasLanded()
         {
@@ -74,6 +118,7 @@ namespace JumpingGame
         {
             Position = new Vector2(_game.GraphicsDevice.Viewport.Bounds.Width, _game.GraphicsDevice.Viewport.Bounds.Height) / 2;
             Origin = new Vector2(0, this.BoundingBox.Width);
+            _isFalling = true;
         }
     }
 }
